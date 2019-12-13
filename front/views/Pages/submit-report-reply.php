@@ -1,0 +1,21 @@
+///////////////////////////////////////////////////////////
+//
+//  The template will expand the SECTION_BODY section
+//  directive to any code defined in this file.
+//
+@template ../Templates/layout.php
+
+
+///////////////////////////////////////////////////////////
+//
+//  View submit report page.
+//
+
+            @partial ../Components/header.php
+
+
+
+
+///////////////////////////////////////////////////////////
+//
+                    @partial ../Forms/report-reply.php
