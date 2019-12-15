@@ -343,9 +343,9 @@
                         __val = $("#input-string").html() + $("#input-complete").html();
 
                         if (__addedTags.indexOf(__val) === -1) {
-                            if (__mode === "Basic" && __techList.indexOf(__val) == -1)
-                                alert("Basic account users may not define new tags");
-                            else
+                            // if (__mode === "Basic" && __techList.indexOf(__val) == -1)
+                            //     alert("Basic account users may not define new tags");
+                            // else
                                 __addedTags.push(__val);
                         }
 
