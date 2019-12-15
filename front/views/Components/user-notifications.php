@@ -427,6 +427,7 @@
                 </div>
             ';
         }
+        
     }
     
     foreach ($solutionList as $solutionIndex=>$solution)
