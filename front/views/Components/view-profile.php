@@ -64,7 +64,17 @@
     if ($this->_data['profile']['img'] === "")
         $this->_data['profile']['img'] = "[STORE[Images/index.png]]";
 
-
+    $_user = new \App\User\AuthControlleR();
+    if (($_userInfo = $_user->findTableRow([
+        'id', '=', $this->_data['profile']['user_id']
+    ])) === false)
+    {
+        $_userScore = 0;
+    }
+    else
+    {
+        $_userScore = $_userInfo[0]['score'];
+    }
 ?>
 
 [CSS[
@@ -140,6 +150,42 @@
             height: auto;
         }
 
+    #user-stats {
+        position: relative;
+        float: right;
+
+        box-sizing: border-box;
+
+        margin: .5vw 1.5vw 0vw 0vw;
+        padding: .5vw;
+
+        width: 40vw;
+        height: auto;
+
+        background: #FFF;
+    }
+
+        .user-stats-section {
+            position: relative;
+            float: right;
+
+            width: 33.33%;
+            height: 5vh;
+
+            line-height: 5.5vh;
+
+            font-family: Helvetica, sans-serif;
+            font-size: 12px;
+        }
+
+            .user-stats-half {
+                position: relative;
+                float: left;
+
+                width: 50%;
+                height: 2.5hv;
+            }
+
     .buttons a {
         font-size: 12px !important;
     }
@@ -156,6 +202,10 @@
         }
 
         #user-image {
+            width: 25vw;
+        }
+
+        #user-stats {
             width: 25vw;
         }
 
@@ -214,6 +264,17 @@
 
     <div id="user-image">
         <?php echo "<img src=" . $this->_data['profile']['img'] . ">"; ?>
+    </div>
+
+    <div id="user-stats">
+        <div class="user-stats-section">
+            <div class="user-stats-half" style="text-align: right;">
+                Score
+            </div>
+            <div class="user-stats-half" style="padding-left: .5vw; width: calc(50% - .5vw); color: #0A0;">
+                <?php echo $_userScore; ?>
+            </div>
+        </div>
     </div>
 
 

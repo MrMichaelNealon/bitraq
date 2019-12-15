@@ -11,7 +11,6 @@
     <script src="js/ckeditor/ckeditor.js"></script>
     <script src="js/confirmAction.js"></script>
     <body>
-
         <div id="wrapper">
             <div id="outer">
                 <div id="inner">

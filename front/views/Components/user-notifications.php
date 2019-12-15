@@ -356,6 +356,7 @@
         if ($notice[0] == "FriendRequest") {
             $_notifyHeader = "Friend Request";
         }
+        
 
         if (trim($notice[0]) == 'Solution')
         {
@@ -412,7 +413,7 @@
             ';
         }
 
-        if ($_notifyHeader === "Congratulations" || $_notifyHeader === "Unfortunately...")
+        if ($_notifyHeader === "Congratulations!" || $_notifyHeader === "Unfortunately...")
         {
             echo '
                 <div id=\"notification-' . $notice[1] . '" class="notification">
@@ -427,7 +428,7 @@
                 </div>
             ';
         }
-        
+
     }
     
     foreach ($solutionList as $solutionIndex=>$solution)
