@@ -25,5 +25,6 @@ use App\Controllers\Route;
     Route::post('/submit-report/$id', '\App\User\ReportController:submitReport');
     Route::post('/edit-report/$username/$project/$projectId/$id', '\App\User\ReportController:updateReport');
     Route::post('/submit-report-reply/$username/$projectId/$reportId', '\App\User\ReportController:submitSolution');
+    Route::post('/edit-report-reply/$username/$replyId', '\App\User\SolutionController:editReportSolution');
 
     Route::post('/search', '\App\User\HomeController:submitSearch');

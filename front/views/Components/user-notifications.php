@@ -128,8 +128,8 @@
         .notification a {
             padding-bottom: 0vh;
         }
-            }
-        ]CSS]
+    }
+]CSS]
 
     <h2>You have <?php echo count($_notifications); ?> notifications</h2>
 

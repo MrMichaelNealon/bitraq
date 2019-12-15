@@ -242,9 +242,7 @@ public function updateReport($username, $project, $projectId, $id)
 public function viewProjectReports($username, $projectId)
     {
         if (($_reportList = $this->findTableRow([
-            'username', '=', $username,
-            'AND',
-            'project_id', '=', $projectId
+            'username', '=', $username
         ])) === false)
         {
             $this->messages->_pushMessage(MESSAGES_ERROR, "SQL Error");
@@ -296,9 +294,22 @@ public function viewProjectReport($projectId, $reportId)
             exit;
         }
 
+        $_solutions = new \App\User\SolutionController();
+        if (($_solutionList = $_solutions->findTableRow([
+            'project_owner', '=', $_reports[0]['username'],
+            'AND',
+            'report_id', '=', $reportId
+        ])) === false)
+        {
+            $this->messages->_pushMessage(MESSAGES_ERROR, "SQL Error");
+            header("Location: /");
+            exit;
+        }
+
         $this->_data['username'] = $_reports[0]['username'];
         $this->_data['project'] = $_project[0];
         $this->_data['report'] = $_reports[0];
+        $this->_data['solutions'] = $_solutionList;
 
         $this->render('Pages/view-project-report.php', $this->_data);
         exit;
@@ -402,18 +413,23 @@ public function submitSolution($username, $projectId, $reportId)
             <p>{$_POST['report-reply']}</p>
         ";
 
-        $_report[0]['replies'] .= "\t" . $_reply;
+////////////////////////////////////////////////////////
+// !!! REMOVE REPLIES !!! //
+////////////////////////////////////////////////////////
 
-        if ($this->updateTableRow([
-            'replies' => $_reply
-        ], [
-            'project_id', '=', $projectId
-        ]) === false)
-        {
-            $this->messages->_pushMessage(MESSAGES_ERROR, "SQL Error");
-            header("Location: /");
-            exit;
-        }
+
+        //$_report[0]['replies'] .= "\t" . $_reply;
+
+        // if ($this->updateTableRow([
+        //     'replies' => $_reply
+        // ], [
+        //     'project_id', '=', $projectId
+        // ]) === false)
+        // {
+        //     $this->messages->_pushMessage(MESSAGES_ERROR, "SQL Error");
+        //     header("Location: /");
+        //     exit;
+        // }
 
         $_profile = new \App\User\ProfileController();
         $_project = new \App\User\ProjectController();
@@ -447,12 +463,28 @@ public function submitSolution($username, $projectId, $reportId)
             exit;
         }
 
-        $_userInfo[0]['notifications'] .= "Solution@{$username}@{$projectId}:{$reportId}:Solution submitted by user $username";
+        $_userInfo[0]['notifications'] .= "Solution : {$username} : {$projectId} : {$reportId} : Solution submitted by user $username";
 
         if ($_user->updateTableRow([
             'notifications' => $_userInfo[0]['notifications']
         ], [
             'id', '=', $_userProfile[0]['user_id']
+        ]) === false)
+        {
+            $this->messages->_pushMessage(MESSAGES_ERROR, "SQL Error");
+            header("Location: /");
+            exit;
+        }
+
+        $_solution = new \App\User\SolutionController();
+
+        if ($_solution->insertTableRow([
+            'username' => $username,
+            'project_id' => $projectId,
+            'project_owner' => $_userInfo[0]['username'],
+            'report_id' => $reportId,
+            'body' => $_POST['report-reply'],
+            'status' => ''
         ]) === false)
         {
             $this->messages->_pushMessage(MESSAGES_ERROR, "SQL Error");

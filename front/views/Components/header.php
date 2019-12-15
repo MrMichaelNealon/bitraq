@@ -169,6 +169,16 @@
             $_notificationList = preg_split('/;/', $_notifications[0]['notifications'], null, PREG_SPLIT_NO_EMPTY);
         }
 
+        // $_solutions = new \App\User\SolutionController();
+
+        // if (($_solutionList = $_solutions->findTableRow([
+        //     'project_owner', '=', $_SESSION[SESSION_USER_NAME]
+        // ])) === false)
+        // {
+        //     \App\Models\Messages::pushMessage(MESSAGES_ERROR, "Error retrieving solutions");
+        //     $_notificationList = Array();
+        // }
+
 ?>
         <div id="toggle-dash-notifications" onclick="window.location.href = '/notifications'">
             <img class="dash-img" src="[STORE[Images/notificationsIcon.png]]" style="margin-left: -1.5vh; margin-top: -1.5vh; height: calc(100% + 3vh); width: calc(100% + 3vh);">

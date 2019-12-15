@@ -137,8 +137,26 @@
 <?php
     foreach ($_reports as $index=>$report)
     {
+        $project = new \App\User\ProjectController();
+        if (($projectInfo = $project->findTableRow([
+            'id', '=', $report['project_id']
+        ])) === false)
+        {
+            continue;
+        }
+
+        // foreach ($projectInfo as $key=>$p)
+        // {
+        //     echo print_r($p) . "<br><br>";
+        // }
         if (! $_isUser)
         {
+            if ($projectInfo[0]['status'] !== 'Public')
+            {
+                if ($projectInfo[0]['status'] === 'Private' || ($projectInfo[0]['status'] === 'Protected' && $_friends === false))
+                    continue;
+            }
+
             if ($report['status'] !== 'Public')
             {
                 if ($report['status'] === 'Private' || $_friends === false)

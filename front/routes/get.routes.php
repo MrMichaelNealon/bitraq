@@ -28,6 +28,9 @@ use App\Controllers\Route;
    Route::get('/view-project-report/$projectId/$reportId', '\App\User\ReportController:viewProjectReport');
    Route::get('/submit-report-reply/$username/$reportId', '\App\User\ReportController:submitReportReply');
    
+   Route::get('/edit-solution/$username/$reportId/$solutionId', '\App\User\SolutionController:editSolution');
+   Route::get('/delete-solution/$username/$reportId/$replyId', '\App\User\SolutionController:deleteSolution');
+   
    Route::get('/delete-project/$username/$id', '\App\User\ProjectController:deleteProject');
    Route::get('/edit-project/$username/$id', '\App\User\ProjectController:editProject');
    

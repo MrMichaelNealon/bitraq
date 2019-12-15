@@ -39,6 +39,11 @@
 
     <script>
         $(document).ready(function() {
+            $(window).on("scroll", function() {
+                $("#dashboard-options a").css("visibility", "hidden");
+                $("#dashboard-options").css("height", "0px");
+            });
+
             $("#toggle-dash-options").on("click", function() {
                 if ($("#dashboard-options").css("height") == "0px") {
                     $("#dashboard-options").css("height", "auto");

@@ -219,10 +219,6 @@
         var __charNo = 0;
         var __stringIn = "";
 
-
-        console.log("__projectClass = " + __projectClass);
-        console.log("__projectType = " + __projectType);
-
         $(document).ready(function() {
             function __getSelected()
             {

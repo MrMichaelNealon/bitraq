@@ -52,13 +52,13 @@
     <h2>Submit reply for report <em><?php echo $_report['title']; ?></em></h1>
 
 <?php
-    if (! isset($_SESSION['exit-report-reply'])) {
+    if (! isset($_SESSION['edit-report-reply'])) {
 ?>
     <form id="report-reply-form" method="POST" action="/submit-report-reply/<?php echo $this->_data['username'] . '/' . $_report['project_id'] . '/' . $_report['id']; ?>">
 <?php
     } else {
 ?>
-    <form id="report-reply-form" method="POST" action="/edit-report-reply/<?php echo $this->_data['username'] . '/' . $_report['project_id'] . '/' . $_report['id']; ?>">
+    <form id="report-reply-form" method="POST" action="/edit-report-reply/<?php echo $this->_data['username'] . '/' . $this->_data['reply-id']; ?>">
 <?php
     }
 ?>
@@ -69,15 +69,26 @@
     </form>
 
     <div class="buttons">
+<?php
+    if (isset($_SESSION['edit-report-reply'])) {
+?>
+        <a id="submit-solution" href="#">
+            Save
+        </a>
+<?php } else { ?>
         <a id="submit-solution" href="#">
             Submit
         </a>
+<?php } ?>
+
         <a href="/view-project-report/<?php echo $_report['project_id'] . '/' . $_report['id']; ?>">
             Cancel
         </a>
     </div>
 
     <script>
+        var     __edit = <?php if (isset($_SESSION['edit-report-reply'])) { echo '"true"'; } else { echo '"false"'; } ?>
+
         CKEDITOR.replace('report-reply', {
             position: 'relative',
             float: 'left',
@@ -87,7 +98,11 @@
 
         $(document).ready(function() {
             $("#submit-solution").on("click", function() {
+            //    if (__edit === "false")
                 $("#submit-solution-form").trigger("click");
+            //    else {
+            //        alert("EDIT");
+            //    }
             });
         });
     </script>

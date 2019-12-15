@@ -2,9 +2,14 @@
 
     $_report = $this->_data['report'];
     $_project = $this->_data['project'];
+    $_replies = $this->_data['solutions'];
 
-    $_replies = preg_split('/\\t/', $_report['replies'], null, PREG_SPLIT_NO_EMPTY);
-    
+    //$_replies = preg_split('/\\t/', $_report['replies'], null, PREG_SPLIT_NO_EMPTY);
+
+    // $_solutions = new \App\User\SolutionController();
+    // if (($_replies = $_solutions->findTableRow([
+    //     ''
+    // ])))
     $_user = new \App\User\AuthController();
 
     if (($userInfo = $_user->findTableRow([
@@ -302,7 +307,7 @@
         echo '
             <div id="report-reply-' . $replyIndex . '" class="report-reply">
                 <div id="report-reply-inner-' . $replyIndex . '" class="report-reply-inner">
-                    ' . $reply . '
+                    ' . $reply['body'] . '
                 </div>
                 <div id="report-reply-options-' . $replyIndex . '" class="report-reply-options">
         ';
@@ -317,6 +322,20 @@
                     </div>
         ';
     }
+    
+    if ($reply['username'] === $_SESSION[SESSION_USER_NAME])
+    {
+        echo '
+            <div id="report-reply-accept-options-' . $replyIndex . '" class="buttons">
+                <a class="delete-solution" id="delete-solution-' . $replyIndex . '" href="#" style="margin-right: -.5vw">
+                    Delete
+                </a>
+                <a href="/edit-solution/' . $_SESSION[SESSION_USER_NAME] . '/' . $_report['id'] . '/' . $reply['id'] . '" style="margin-right: -.5vw">
+                    Edit
+                </a>
+            </div>
+        ';
+    }
 
         echo '
                 </div>
@@ -326,3 +345,26 @@
 ?>
 
 
+    <script>
+        var     confirmAction = __confirmAction();
+
+    // /delete-solution/' . $_SESSION[SESSION_USER_NAME] . '/' . $_report['id'] . '/' . $reply['id'] . '
+        $(document).ready(function() {
+            $(".delete-solution").on("click", function() {
+                var     __id = $(this).attr("id").substr(16);
+                var     __projectName = $("#project-name-" + __id).html()
+
+                var     __userName = "<?php echo $_SESSION[SESSION_USER_NAME]; ?>";
+                var     __reportTitle = "<?php echo $_report['title']; ?>";
+                var     __reportId = "<?php echo $_report['id']; ?>";
+                var     __replyId = "<?php echo $reply['id']; ?>";
+
+                confirmAction.showConfirm(
+                    "Delete solution?",
+                    "Are you sure you want to delete your solution to " + __reportTitle + "</b>?",
+                    "Delete", "Cancel",
+                    "/delete-solution/" + __userName + '/' + __reportId + '/' + __replyId
+                );
+            });
+        });
+    </script>
