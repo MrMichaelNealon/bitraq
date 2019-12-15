@@ -4,6 +4,8 @@
 namespace App\User;
 
 use App\Models\UserModel;
+use App\Models\Session;
+
 use App\User\EmailController;
 
 use App\Vendor\PHPMailer;
@@ -315,6 +317,57 @@ public function signOutUser()
         unset($_SESSION[SESSION_ACCT_STATUS]);
 
         header("Location: /");
+        exit;
+    }
+
+
+public function deleteNotification($username, $notifyId)
+    {
+        if (Session::loggedIn() === false)
+        {
+            $this->messages->_pushMessage(MESSAGES_ERROR, "Permission denied");
+            header("Location: /");
+            exit;
+        }
+
+        if ($_SESSION[SESSION_USER_NAME] !== $username)
+        {
+            $this->messages->_pushMessage(MESSAGES_ERROR, "Permission denied");
+            header("Location: /");
+            exit;
+        }
+
+        if (($_userInfo = $this->findTableRow([
+            'username', '=', $username
+        ])) === false)
+        {
+            $this->messages->_pushMessage(MESSAGES_ERROR, "SQL Error");
+            header("Location: /");
+            exit;
+        }
+
+        $_notifications = preg_split('/;/', $_userInfo[0]['notifications'], null, PREG_SPLIT_NO_EMPTY);
+        $_newString = "";
+
+        foreach ($_notifications as $index=>$notification)
+        {
+            if ($index === $notifyId)
+                continue;
+            $_newString .= $_newString . ";";
+        }
+
+        if ($this->updateTableRow([
+            'notifications' => $_newString
+        ], [
+            'username', '=', $username
+        ]) === false)
+        {
+            $this->messages->_pushMessage(MESSAGES_ERROR, "SQL Error");
+            header("Location: /");
+            exit;
+        }
+
+        header("Location: /notifications");
         exit;
     }
 

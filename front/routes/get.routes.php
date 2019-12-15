@@ -30,6 +30,8 @@ use App\Controllers\Route;
    
    Route::get('/edit-solution/$username/$reportId/$solutionId', '\App\User\SolutionController:editSolution');
    Route::get('/delete-solution/$username/$reportId/$replyId', '\App\User\SolutionController:deleteSolution');
+   Route::get('/accept-solution/$username/$solutionId', '\App\User\SolutionController:acceptSolution');
+   Route::get('/reject-solution/$username/$solutionId', '\App\User\SolutionController:rejectSolution');
    
    Route::get('/delete-project/$username/$id', '\App\User\ProjectController:deleteProject');
    Route::get('/edit-project/$username/$id', '\App\User\ProjectController:editProject');
@@ -44,3 +46,5 @@ use App\Controllers\Route;
    Route::get('/reject-friend-request/$username/$friendName/$index', '\App\User\ProfileController:rejectFriendRequest');
    
    Route::get('/notifications', '\App\User\ProfileController:viewNotifications');
+   Route::get('/acknowledge/$username/$notifyId', '\App\User\AuthController:deleteNotification');
+   

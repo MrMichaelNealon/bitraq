@@ -463,18 +463,18 @@ public function submitSolution($username, $projectId, $reportId)
             exit;
         }
 
-        $_userInfo[0]['notifications'] .= "Solution : {$username} : {$projectId} : {$reportId} : Solution submitted by user $username";
+        // $_userInfo[0]['notifications'] .= "Solution : {$username} : {$projectId} : {$reportId} : Solution submitted by user $username";
 
-        if ($_user->updateTableRow([
-            'notifications' => $_userInfo[0]['notifications']
-        ], [
-            'id', '=', $_userProfile[0]['user_id']
-        ]) === false)
-        {
-            $this->messages->_pushMessage(MESSAGES_ERROR, "SQL Error");
-            header("Location: /");
-            exit;
-        }
+        // if ($_user->updateTableRow([
+        //     'notifications' => $_userInfo[0]['notifications']
+        // ], [
+        //     'id', '=', $_userProfile[0]['user_id']
+        // ]) === false)
+        // {
+        //     $this->messages->_pushMessage(MESSAGES_ERROR, "SQL Error");
+        //     header("Location: /");
+        //     exit;
+        // }
 
         $_solution = new \App\User\SolutionController();
 
